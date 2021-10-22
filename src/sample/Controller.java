@@ -36,7 +36,7 @@ public class Controller {
     @FXML
     private TextField Display;
 
-
+    //COULD TRY SWITCH CASE HERE
     public void buttonPress(ActionEvent event){
 
         if(event.getSource() == button1 ){
