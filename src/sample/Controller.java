@@ -2,16 +2,20 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Circle;
+
+import java.util.Stack;
 
 public class Controller {
 
     int number;
-
+    int result;
 
 
     @FXML
@@ -32,9 +36,20 @@ public class Controller {
     private Button button8;
     @FXML
     private Button button9;
-
+    @FXML
+    private Button button0;
     @FXML
     private TextField Display;
+    @FXML
+    private Button button_BACK;
+    @FXML
+    private TextField historyTextField;
+
+    private Stack<Integer> CALC_MEMORY = new Stack<>();
+
+
+
+
 
     //COULD TRY SWITCH CASE HERE
     public void buttonPress(ActionEvent event){
@@ -78,6 +93,16 @@ public class Controller {
 
             Display.appendText("9");
         }
+        else if(event.getSource() == button0){
+
+            Display.appendText("0");
+        }
+        else if(event.getSource() == button_BACK){
+
+            Display.deletePreviousChar();
+
+        }
+
 
 
 
@@ -85,6 +110,36 @@ public class Controller {
 
 
     }
+
+    public void clearDisplay(){
+        Display.clear();
+    }
+
+
+
+    public int ADDITION(ActionEvent event) {
+
+        try {
+            number = Integer.parseInt(Display.getText());
+            historyTextField.appendText(Display.getText() + " + ");
+            CALC_MEMORY.push(number);
+            clearDisplay();
+            System.out.println(CALC_MEMORY.peek().intValue());
+
+
+
+        }
+
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+        return number;
+
+    }
+
 
 
 }
