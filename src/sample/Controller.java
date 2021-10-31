@@ -2,14 +2,10 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.SubScene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Box;
-import javafx.scene.shape.Circle;
 
+import java.util.Scanner;
 import java.util.Stack;
 
 public class Controller {
@@ -42,6 +38,10 @@ public class Controller {
     private TextField Display;
     @FXML
     private Button button_BACK;
+    @FXML
+    private Button additionButton;
+    @FXML
+    private Button EQUALS_Button;
     @FXML
     private TextField historyTextField;
 
@@ -111,34 +111,44 @@ public class Controller {
 
     }
 
-    public void clearDisplay(){
+    public int getNumberINT(){
+
+        return Integer.parseInt(Display.getText());
+    }
+    public String getNumberString(){
+
+        return Display.getText();
+    }
+    public void  printToScreen(int number){
+
+        Display.appendText(Integer.toString(number));
+    }
+
+    private void pushToStack(int n){
+
+        CALC_MEMORY.push(n);
+    }
+
+    public void ADD_BUTTON_PRESSED(){
+
+        int FIRST_NUMBER;
+        int SECOND_NUMBER = 0 ;
+        int result= 0;
+
+        if(CALC_MEMORY.isEmpty()) {
+            FIRST_NUMBER = getNumberINT();
+            CALC_MEMORY.push(FIRST_NUMBER);
+            historyTextField.appendText(Display.getText() + " + ");
+            clearDisplay();;
+        }
+
+
+
+    }
+    private void clearDisplay(){
         Display.clear();
     }
 
-
-
-    public int ADDITION(ActionEvent event) {
-
-        try {
-            number = Integer.parseInt(Display.getText());
-            historyTextField.appendText(Display.getText() + " + ");
-            CALC_MEMORY.push(number);
-            clearDisplay();
-            System.out.println(CALC_MEMORY.peek().intValue());
-
-
-
-        }
-
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-
-
-        return number;
-
-    }
 
 
 
