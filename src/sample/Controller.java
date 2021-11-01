@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 
 import java.util.Scanner;
 import java.util.Stack;
@@ -114,38 +115,56 @@ public class Controller {
     public int getNumberINT(){
 
         return Integer.parseInt(Display.getText());
-    }
+    } //CHANGES STRING TO INT AFTER READING FROM DISPLAY
+
     public String getNumberString(){
 
         return Display.getText();
-    }
+    } //CHANGES INT TO STRING AFTER READING FROM DISPLAY
+
     public void  printToScreen(int number){
 
         Display.appendText(Integer.toString(number));
-    }
+    } // PRINTS INT ONTO DISPLAY
 
-    private void pushToStack(int n){
+    private String INT_TO_STRING(int number){
 
-        CALC_MEMORY.push(n);
-    }
+        return Integer.toString(number);
 
-    public void ADD_BUTTON_PRESSED(){
 
-        int FIRST_NUMBER;
-        int SECOND_NUMBER = 0 ;
-        int result= 0;
+    } // CONVERTS INT TO STRING GIVEN AS ARG
 
-        if(CALC_MEMORY.isEmpty()) {
-            FIRST_NUMBER = getNumberINT();
-            CALC_MEMORY.push(FIRST_NUMBER);
-            historyTextField.appendText(Display.getText() + " + ");
-            clearDisplay();;
+    public void handle_ADDITION(ActionEvent event){
+
+        if(event.getSource() == additionButton && CALC_MEMORY.isEmpty()){
+            int a;
+
+            a = getNumberINT();
+            CALC_MEMORY.push(a);
+
+            historyTextField.appendText(getNumberString());
+
         }
 
+        else if(event.getSource() == additionButton && !CALC_MEMORY.isEmpty()){
 
+            int b;
+            int result;
+
+            b = getNumberINT();
+            result = CALC_MEMORY.peek() + b ;
+
+            CALC_MEMORY.push(result);
+            printToScreen(result);
+            Display.appendText(INT_TO_STRING(result));
+
+
+        }
 
     }
-    private void clearDisplay(){
+
+
+    private void clearDisplay(){ // CLEARS DISPLAY
         Display.clear();
     }
 
