@@ -1,10 +1,15 @@
 package sample;
 
+import com.sun.prism.image.CachingCompoundImage;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 import java.util.Scanner;
 import java.util.Stack;
@@ -41,6 +46,8 @@ public class Controller {
     private Button button_BACK;
     @FXML
     private Button additionButton;
+    @FXML
+    private Button clear_Button;
     @FXML
     private Button EQUALS_Button;
     @FXML
@@ -117,7 +124,7 @@ public class Controller {
         return Integer.parseInt(Display.getText());
     } //CHANGES STRING TO INT AFTER READING FROM DISPLAY
 
-    public String getNumberString(){
+    public String returnNumberAsString(){
 
         return Display.getText();
     } //CHANGES INT TO STRING AFTER READING FROM DISPLAY
@@ -127,6 +134,39 @@ public class Controller {
         Display.appendText(Integer.toString(number));
     } // PRINTS INT ONTO DISPLAY
 
+    private void pause(){
+        Platform.enterNestedEventLoop(additionButton);
+
+    }
+    private void resume(){
+        Platform.exitNestedEventLoop(additionButton, null);
+    }
+
+    public void clearButton(MouseEvent event){
+
+        if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
+
+            Display.clear();
+
+        }
+        else if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2){
+
+            Display.clear();
+            CALC_MEMORY.clear();
+            historyTextField.clear();
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
     private String INT_TO_STRING(int number){
 
         return Integer.toString(number);
@@ -134,32 +174,36 @@ public class Controller {
 
     } // CONVERTS INT TO STRING GIVEN AS ARG
 
-    public void handle_ADDITION(ActionEvent event){
+    public void handle_ADDITION(MouseEvent event){
 
-        if(event.getSource() == additionButton && CALC_MEMORY.isEmpty()){
-            int a;
+        int RESULT = 0 ;
 
-            a = getNumberINT();
-            CALC_MEMORY.push(a);
+        if(CALC_MEMORY.isEmpty()){
 
-            historyTextField.appendText(getNumberString());
-
-        }
-
-        else if(event.getSource() == additionButton && !CALC_MEMORY.isEmpty()){
-
-            int b;
-            int result;
-
-            b = getNumberINT();
-            result = CALC_MEMORY.peek() + b ;
-
-            CALC_MEMORY.push(result);
-            printToScreen(result);
-            Display.appendText(INT_TO_STRING(result));
+            RESULT += getNumberINT();
+            CALC_MEMORY.push(RESULT);
+            System.out.println(RESULT + " : Added to stack");
+            System.out.println(RESULT);
+            System.out.println("NO STACK");
+            historyTextField.appendText(returnNumberAsString() + " + ");
+            Display.clear();
 
 
         }
+        else if(!CALC_MEMORY.isEmpty()){
+
+
+            RESULT += CALC_MEMORY.peek() + getNumberINT();
+            CALC_MEMORY.push(RESULT);
+            System.out.println(RESULT + " : Added to stack");
+            System.out.println(RESULT);
+            System.out.println("ON TOP OF STACK");
+            clearDisplay();
+            Display.appendText(String.valueOf(RESULT));
+
+        }
+
+
 
     }
 
