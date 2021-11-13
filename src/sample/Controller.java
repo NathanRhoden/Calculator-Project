@@ -54,10 +54,6 @@ public class Controller {
 
     private Stack<Float> CALC_MEMORY = new Stack<>();
 
-
-
-
-
     //COULD TRY SWITCH CASE HERE
     public void buttonPress(ActionEvent event){
 
