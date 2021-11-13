@@ -1,18 +1,18 @@
 package sample;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
-
-import java.util.Scanner;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import java.util.Stack;
 
 public class Controller {
 
-    int number;
-    int result;
+
+    float result;
+    float a = 0;
+    String calculation;
 
 
     @FXML
@@ -42,11 +42,17 @@ public class Controller {
     @FXML
     private Button additionButton;
     @FXML
+    private Button multiplicationButton;
+    @FXML
+    private Button clear_Button;
+    @FXML
+    private Button subtractionButton;
+    @FXML
     private Button EQUALS_Button;
     @FXML
     private TextField historyTextField;
 
-    private Stack<Integer> CALC_MEMORY = new Stack<>();
+    private Stack<Float> CALC_MEMORY = new Stack<>();
 
 
 
@@ -111,62 +117,118 @@ public class Controller {
 
 
     }
-
-    public int getNumberINT(){
+    private void clearDisplay(){ // CLEARS DISPLAY
+        Display.clear();
+    }
+    public float  getNumberINT(){
 
         return Integer.parseInt(Display.getText());
     } //CHANGES STRING TO INT AFTER READING FROM DISPLAY
-
-    public String getNumberString(){
+    public String returnNumberAsString(){
 
         return Display.getText();
     } //CHANGES INT TO STRING AFTER READING FROM DISPLAY
+    public void  printToScreen(float number){
 
-    public void  printToScreen(int number){
+        Display.appendText(Float.toString(number));
 
-        Display.appendText(Integer.toString(number));
     } // PRINTS INT ONTO DISPLAY
+    public void clearButton(MouseEvent event){
 
-    private String INT_TO_STRING(int number){
+        if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
 
-        return Integer.toString(number);
+            Display.clear();
+
+        }
+        else if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2){
+
+            Display.clear();
+            CALC_MEMORY.clear();
+            historyTextField.clear();
+            System.out.println("Stack emptied");
+        }
+
+    }
+    private String INT_TO_STRING(Float number){
+
+        return Float.toString(number);
 
 
     } // CONVERTS INT TO STRING GIVEN AS ARG
 
-    public void handle_ADDITION(ActionEvent event){
 
-        if(event.getSource() == additionButton && CALC_MEMORY.isEmpty()){
-            int a;
 
-            a = getNumberINT();
-            CALC_MEMORY.push(a);
 
-            historyTextField.appendText(getNumberString());
+    public void addition(){
+        calc_setup("+");
+        historyTextField.appendText(returnNumberAsString() + " + ");
+        CALC_MEMORY.push(getNumberINT());
+        System.out.println("In stack : " + CALC_MEMORY.peek());
+        clearDisplay();
+    }
+    public void subtraction(){
+        calc_setup("-");
+        historyTextField.appendText(returnNumberAsString() + " - ");
+        CALC_MEMORY.push(getNumberINT());
+        System.out.println("In stack : " + CALC_MEMORY.peek());
+        clearDisplay();
+    }
+    public void multiplication(){
+        calc_setup("*");
+        historyTextField.appendText(returnNumberAsString() + " x ");
+        CALC_MEMORY.push(getNumberINT());
+        System.out.println("In stack : " + CALC_MEMORY.peek());
+        clearDisplay();
 
+    }
+
+    public void calc_setup(String calculation){
+
+        this.calculation  = calculation;
+    }
+
+    public void calculationA(){
+
+        a = CALC_MEMORY.peek();
+
+        switch (calculation){
+            case "+" ->{
+                result = a + getNumberINT();
+                historyTextField.appendText(INT_TO_STRING(CALC_MEMORY.peek()) + " + " + returnNumberAsString() + " = ");
+                clearDisplay();
+                printToScreen(result);
+                CALC_MEMORY.push(result);
+                System.out.println("In stack : " + CALC_MEMORY.peek());
+;
+
+            }
+            case "-" -> {
+                result = a - getNumberINT();
+                historyTextField.appendText(INT_TO_STRING(CALC_MEMORY.peek()) + " - " + returnNumberAsString() + " = ");
+                clearDisplay();
+                printToScreen(result);
+                CALC_MEMORY.push(result);
+                System.out.println("In stack : " + CALC_MEMORY.peek());
+            }
+            case "*" ->{
+                result = a * getNumberINT();
+                historyTextField.clear();
+                historyTextField.appendText(INT_TO_STRING(CALC_MEMORY.peek()) + " x " + returnNumberAsString() + " = ");
+                clearDisplay();
+                printToScreen(result);
+                CALC_MEMORY.push(result);
+                System.out.println("In stack : " + CALC_MEMORY.peek());
+
+            }
         }
 
-        else if(event.getSource() == additionButton && !CALC_MEMORY.isEmpty()){
 
-            int b;
-            int result;
-
-            b = getNumberINT();
-            result = CALC_MEMORY.peek() + b ;
-
-            CALC_MEMORY.push(result);
-            printToScreen(result);
-            Display.appendText(INT_TO_STRING(result));
-
-
-        }
 
     }
 
 
-    private void clearDisplay(){ // CLEARS DISPLAY
-        Display.clear();
-    }
+
+
 
 
 
