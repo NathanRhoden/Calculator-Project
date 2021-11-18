@@ -17,7 +17,7 @@
       <Pane layoutY="111.0" maxHeight="339.0" maxWidth="320.0" prefHeight="339.0" prefWidth="320.0">
          <children>
             <Button fx:id="button7" layoutY="170.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="42.0" prefWidth="78.0" text="7" />
-            <Button layoutY="296.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="78.0" text="+/-" />
+            <Button fx:id="inverseButton" layoutY="296.0" mnemonicParsing="false" onAction="#invert" prefHeight="42.0" prefWidth="78.0" text="+/-" />
             <Button fx:id="additionButton" layoutX="230.0" layoutY="253.0" mnemonicParsing="false" onAction="#addition" prefHeight="42.0" prefWidth="86.0" text="+" textAlignment="CENTER">
                <font>
                   <Font size="20.0" />
@@ -39,9 +39,13 @@
             <Button fx:id="multiplicationButton" layoutX="230.0" layoutY="170.0" mnemonicParsing="false" onAction="#multiplication" prefHeight="42.0" prefWidth="86.0" text="X" />
             <Button layoutX="152.0" layoutY="296.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="78.0" text="." />
             <Button fx:id="button0" layoutX="78.0" layoutY="296.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="42.0" prefWidth="78.0" text="0" />
-            <Button layoutX="230.0" layoutY="128.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="86.0" text="^]" />
+            <Button fx:id="divisionButton" layoutX="230.0" layoutY="128.0" mnemonicParsing="false" onAction="#division" prefHeight="42.0" prefWidth="86.0" text="÷" />
             <Button fx:id="button_BACK" layoutX="230.0" layoutY="86.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="86.0" text="&lt;" />
-            <Button fx:id="EQUALS_Button" layoutX="230.0" layoutY="296.0" mnemonicParsing="false" onAction="#calculationA" prefHeight="42.0" prefWidth="86.0" text="=" />
+            <Button fx:id="EQUALS_Button" layoutX="230.0" layoutY="296.0" mnemonicParsing="false" onAction="#Equals_calculation" prefHeight="42.0" prefWidth="86.0" text="=" />
+            <Button fx:id="clear_Button" layoutX="152.0" layoutY="86.0" mnemonicParsing="false" onMouseClicked="#clearButton" prefHeight="42.0" prefWidth="78.0" text="CE" />
+            <Button fx:id="squareRootButton" layoutX="152.0" layoutY="128.0" mnemonicParsing="false" onAction="#sqrt" prefHeight="42.0" prefWidth="78.0" text="√x" />
+            <Button fx:id="squareButton" layoutX="78.0" layoutY="128.0" mnemonicParsing="false" onAction="#powerOf" prefHeight="42.0" prefWidth="78.0" text="x² " />
+            <Button fx:id="one_Over_X_Button" layoutY="128.0" mnemonicParsing="false" onAction="#one_over_X" prefHeight="42.0" prefWidth="78.0" text="1/x" />
          </children>
       </Pane>
       <TextField fx:id="historyTextField" layoutX="87.0" layoutY="-1.0" prefHeight="30.0" prefWidth="216.0" style="-fx-background-color: -fx-control-inner-background;">

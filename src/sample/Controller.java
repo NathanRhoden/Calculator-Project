@@ -5,13 +5,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+
 import java.util.Stack;
 
 public class Controller {
 
 
     float result;
-    float a = 0;
+    float TOP_OF_STACK = 0;
     String calculation;
 
 
@@ -40,6 +42,16 @@ public class Controller {
     @FXML
     private Button button_BACK;
     @FXML
+    private Button divisionButton;
+    @FXML
+    private Button squareRootButton;
+    @FXML
+    private Button squareButton;
+    @FXML
+    private Button one_Over_X_Button;
+    @FXML
+    private Button inverseButton;
+    @FXML
     private Button additionButton;
     @FXML
     private Button multiplicationButton;
@@ -51,6 +63,7 @@ public class Controller {
     private Button EQUALS_Button;
     @FXML
     private TextField historyTextField;
+
 
     private Stack<Float> CALC_MEMORY = new Stack<>();
 
@@ -106,19 +119,13 @@ public class Controller {
 
         }
 
-
-
-
-
-
-
     }
     private void clearDisplay(){ // CLEARS DISPLAY
         Display.clear();
     }
-    public float  getNumberINT(){
+    public float getNumberDisplayedAsFloat(){
 
-        return Integer.parseInt(Display.getText());
+        return Float.parseFloat(Display.getText());
     } //CHANGES STRING TO INT AFTER READING FROM DISPLAY
     public String returnNumberAsString(){
 
@@ -151,71 +158,102 @@ public class Controller {
 
 
     } // CONVERTS INT TO STRING GIVEN AS ARG
-
-
-
+    private void appendFinalCalculation(){
+        historyTextField.appendText(" " + returnNumberAsString());
+        clearDisplay();
+        printToScreen(result);
+        CALC_MEMORY.push(result);
+        System.out.println("In stack : " + CALC_MEMORY.peek());
+    }// APPENDS THE RESULT OF THE FINAL CALCULATION TO THE DISPLAY
 
     public void addition(){
+
         calc_setup("+");
         historyTextField.appendText(returnNumberAsString() + " + ");
-        CALC_MEMORY.push(getNumberINT());
+        CALC_MEMORY.push(getNumberDisplayedAsFloat());
         System.out.println("In stack : " + CALC_MEMORY.peek());
         clearDisplay();
     }
     public void subtraction(){
         calc_setup("-");
         historyTextField.appendText(returnNumberAsString() + " - ");
-        CALC_MEMORY.push(getNumberINT());
+        CALC_MEMORY.push(getNumberDisplayedAsFloat());
         System.out.println("In stack : " + CALC_MEMORY.peek());
         clearDisplay();
     }
     public void multiplication(){
         calc_setup("*");
         historyTextField.appendText(returnNumberAsString() + " x ");
-        CALC_MEMORY.push(getNumberINT());
+        CALC_MEMORY.push(getNumberDisplayedAsFloat());
         System.out.println("In stack : " + CALC_MEMORY.peek());
         clearDisplay();
 
     }
+    public void one_over_X(){
+        float i = getNumberDisplayedAsFloat();
+        clearDisplay();
+        float result = 1/i;
+        printToScreen(result);
+
+    };
+    public void division(){
+        calc_setup("/");
+        historyTextField.appendText(returnNumberAsString() + " ÷ ");
+        CALC_MEMORY.push(getNumberDisplayedAsFloat());
+        System.out.println("In stack : " + CALC_MEMORY.peek());
+        clearDisplay();
+    }
+    public void invert(){
+
+        int i  = -1;
+        float k = getNumberDisplayedAsFloat();
+        float k_inverse = k * i;
+        clearDisplay();
+        printToScreen(k_inverse);
+
+    }
+    public void powerOf(){
+        float i = getNumberDisplayedAsFloat();
+        clearDisplay();
+        float k = i*i;
+        printToScreen(k);
+    }
+    public void sqrt(){
+        double k = Math.sqrt(Double.parseDouble(Display.getText()));
+        clearDisplay();
+        Display.appendText(Double.toString(k));
+    }
+
 
     public void calc_setup(String calculation){
 
         this.calculation  = calculation;
-    }
+    } //SETS THE STRING FOR SWITCH CASE
 
-    public void calculationA(){
+    public void Equals_calculation(){
 
-        a = CALC_MEMORY.peek();
+        TOP_OF_STACK = CALC_MEMORY.peek();
 
         switch (calculation){
             case "+" ->{
-                result = a + getNumberINT();
-                historyTextField.appendText(INT_TO_STRING(CALC_MEMORY.peek()) + " + " + returnNumberAsString() + " = ");
-                clearDisplay();
-                printToScreen(result);
-                CALC_MEMORY.push(result);
-                System.out.println("In stack : " + CALC_MEMORY.peek());
-;
+                result = TOP_OF_STACK + getNumberDisplayedAsFloat();
+                appendFinalCalculation();
 
             }
             case "-" -> {
-                result = a - getNumberINT();
-                historyTextField.appendText(INT_TO_STRING(CALC_MEMORY.peek()) + " - " + returnNumberAsString() + " = ");
-                clearDisplay();
-                printToScreen(result);
-                CALC_MEMORY.push(result);
-                System.out.println("In stack : " + CALC_MEMORY.peek());
+                result = TOP_OF_STACK - getNumberDisplayedAsFloat();
+                appendFinalCalculation();
             }
             case "*" ->{
-                result = a * getNumberINT();
-                historyTextField.clear();
-                historyTextField.appendText(INT_TO_STRING(CALC_MEMORY.peek()) + " x " + returnNumberAsString() + " = ");
-                clearDisplay();
-                printToScreen(result);
-                CALC_MEMORY.push(result);
-                System.out.println("In stack : " + CALC_MEMORY.peek());
+                result = TOP_OF_STACK * getNumberDisplayedAsFloat();
+                appendFinalCalculation();
 
             }
+            case "/" ->{
+                result = TOP_OF_STACK / getNumberDisplayedAsFloat();
+                appendFinalCalculation();
+            }
+
         }
 
 
