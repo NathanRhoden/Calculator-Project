@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 import java.util.Stack;
 
@@ -41,8 +42,6 @@ public class Controller {
     @FXML
     private Button button_BACK;
     @FXML
-    private Button decimal_button;
-    @FXML
     private Button divisionButton;
     @FXML
     private Button squareRootButton;
@@ -66,69 +65,64 @@ public class Controller {
     private TextField historyTextField;
 
 
-
-
     private Stack<Float> CALC_MEMORY = new Stack<>();
 
-
+    //COULD TRY SWITCH CASE HERE
     public void buttonPress(ActionEvent event){
 
         if(event.getSource() == button1 ){
 
-            printToScreen(1);
+            Display.appendText("1");
         }
        else if(event.getSource() == button2){
 
-            printToScreen(2);
+           Display.appendText("2");
        }
         else if(event.getSource() == button3){
 
-            printToScreen(3);
+            Display.appendText("3");
         }
         else if(event.getSource() == button4){
 
-            printToScreen(4);
+            Display.appendText("4");
         }
         else if(event.getSource() == button5){
 
-            printToScreen(5);
+            Display.appendText("5");
         }
         else if(event.getSource() == button6){
 
-            printToScreen(6);
+            Display.appendText("6");
         }
 
         else if(event.getSource() == button7){
 
-            printToScreen(7);
+            Display.appendText("7");
         }
 
         else if(event.getSource() == button8){
 
-            printToScreen(8);
+            Display.appendText("8");
         }
 
         else if(event.getSource() == button9){
 
-            printToScreen(9);
+            Display.appendText("9");
         }
         else if(event.getSource() == button0){
 
-            printToScreen(0);
+            Display.appendText("0");
         }
         else if(event.getSource() == button_BACK){
 
             Display.deletePreviousChar();
 
         }
-        else if(event.getSource() == decimal_button){
-            printToScreen(".");
-        }
 
-    }//PRINTS THE VARIOUS BUTTON PRESSES TO SCREEN
+    }
     private void clearDisplay(){ // CLEARS DISPLAY
         Display.clear();
-    } //CLEARS THE MAIN DISPLAY
+    }
     public float getNumberDisplayedAsFloat(){
 
         return Float.parseFloat(Display.getText());
@@ -137,26 +131,11 @@ public class Controller {
 
         return Display.getText();
     } //CHANGES INT TO STRING AFTER READING FROM DISPLAY
-
-    public void getHistoryTextField() {
-        if (!historyTextField.getText().isEmpty()){
-
-            historyTextField.appendText(calculation);
-
-        }
-    }//ATTEMPT AT FIX FOR HISTORY TEXT FIELD
-
-    private void  printToScreen(float number){
+    public void  printToScreen(float number){
 
         Display.appendText(Float.toString(number));
 
-    } // PRINTS FLOAT ONTO DISPLAY
-    private void printToScreen(int result){
-        Display.appendText(Integer.toString(result));
-    }//PRINTS INT TO SCREEN
-    private void printToScreen(String string){Display.appendText(string);}//PRINTS STRING TO SCREEN
-
-
+    } // PRINTS INT ONTO DISPLAY
     public void clearButton(MouseEvent event){
 
         if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
@@ -172,8 +151,8 @@ public class Controller {
             System.out.println("Stack emptied");
         }
 
-    }//1 CLICK CLEARS THE DISPLAY 2 CLICKS CLEARS THE STACK
-    private String INT_TO_STRING(int number){
+    }
+    private String INT_TO_STRING(Float number){
 
         return Float.toString(number);
 
@@ -182,30 +161,18 @@ public class Controller {
     private void appendFinalCalculation(){
         historyTextField.appendText(" " + returnNumberAsString());
         clearDisplay();
-        numberValidation();
         printToScreen(result);
         CALC_MEMORY.push(result);
         System.out.println("In stack : " + CALC_MEMORY.peek());
     }// APPENDS THE RESULT OF THE FINAL CALCULATION TO THE DISPLAY
-    private void numberValidation(){
 
-        if (result % 10 == 0) {
-            int new_Value  = (int) result;
-        }
-
-    }//CHECKS IF THE NUMBER HAS AN DECIMAL POINTS IF NOT IT TRUNCATES THE NUMBER
-
-
-    //HANDLES THE OPERATIONS OF THE CALCULATOR
     public void addition(){
 
         calc_setup("+");
-        getHistoryTextField();
         historyTextField.appendText(returnNumberAsString() + " + ");
         CALC_MEMORY.push(getNumberDisplayedAsFloat());
         System.out.println("In stack : " + CALC_MEMORY.peek());
         clearDisplay();
-
     }
     public void subtraction(){
         calc_setup("-");
@@ -228,7 +195,7 @@ public class Controller {
         float result = 1/i;
         printToScreen(result);
 
-    }
+    };
     public void division(){
         calc_setup("/");
         historyTextField.appendText(returnNumberAsString() + " ÷ ");
