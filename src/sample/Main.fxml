@@ -40,12 +40,14 @@
             <Button fx:id="decimal_button" layoutX="152.0" layoutY="296.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="42.0" prefWidth="78.0" text="." />
             <Button fx:id="button0" layoutX="78.0" layoutY="296.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="42.0" prefWidth="78.0" text="0" />
             <Button fx:id="divisionButton" layoutX="230.0" layoutY="128.0" mnemonicParsing="false" onAction="#division" prefHeight="42.0" prefWidth="86.0" text="÷" />
-            <Button fx:id="button_BACK" layoutX="230.0" layoutY="86.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="86.0" text="&lt;" />
+            <Button fx:id="removeLastDigit" layoutX="230.0" layoutY="86.0" mnemonicParsing="false" onMouseClicked="#deleteLast" prefHeight="42.0" prefWidth="86.0" text="&lt;" />
             <Button fx:id="EQUALS_Button" layoutX="230.0" layoutY="296.0" mnemonicParsing="false" onAction="#Equals_calculation" prefHeight="42.0" prefWidth="86.0" text="=" />
-            <Button fx:id="clear_Button" layoutX="152.0" layoutY="86.0" mnemonicParsing="false" onMouseClicked="#clearButton" prefHeight="42.0" prefWidth="78.0" text="CE" />
+            <Button layoutX="152.0" layoutY="86.0" mnemonicParsing="false" onMouseClicked="#clearButton" prefHeight="42.0" prefWidth="78.0" text="C" />
             <Button fx:id="squareRootButton" layoutX="152.0" layoutY="128.0" mnemonicParsing="false" onAction="#sqrt" prefHeight="42.0" prefWidth="78.0" text="√x" />
             <Button fx:id="squareButton" layoutX="78.0" layoutY="128.0" mnemonicParsing="false" onAction="#powerOf" prefHeight="42.0" prefWidth="78.0" text="x² " />
             <Button fx:id="one_Over_X_Button" layoutY="128.0" mnemonicParsing="false" onAction="#one_over_X" prefHeight="42.0" prefWidth="78.0" text="1/x" />
+            <Button fx:id="backButton" layoutX="78.0" layoutY="86.0" mnemonicParsing="false" onMouseClicked="#clearButton" prefHeight="42.0" prefWidth="78.0" text="CE" />
+            <Button fx:id="percentageButton" layoutY="86.0" mnemonicParsing="false" onMouseClicked="#percentage" prefHeight="42.0" prefWidth="78.0" text="\%" />
          </children>
       </Pane>
       <TextField fx:id="historyTextField" layoutX="87.0" layoutY="-1.0" prefHeight="30.0" prefWidth="216.0" style="-fx-background-color: -fx-control-inner-background;">

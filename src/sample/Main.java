@@ -19,13 +19,13 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        Parent root = null ;
+        Parent root;
 
 
         try {
-            root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+            root = FXMLLoader.load( getClass().getResource("Main.fxml"));
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+
             primaryStage.setTitle("Calculator");
             primaryStage.setScene(scene);
             primaryStage.show();
