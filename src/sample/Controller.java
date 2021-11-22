@@ -15,7 +15,7 @@ public class Controller {
     float TOP_OF_STACK = 0;
     String calculation;
 
-
+    //region {BUTTONS}
     @FXML
     private Button button1;
     @FXML
@@ -63,10 +63,12 @@ public class Controller {
     @FXML
     private Button EQUALS_Button;
     @FXML
+    private Button percentageButton;
+    @FXML
+    private Button backButton;
+    @FXML
     private TextField historyTextField;
-
-
-
+    //endregion
 
     private Stack<Float> CALC_MEMORY = new Stack<>();
 
@@ -137,6 +139,10 @@ public class Controller {
 
         return Display.getText();
     } //CHANGES INT TO STRING AFTER READING FROM DISPLAY
+    private String returnNumberAsString(int num){
+        return String.valueOf(num);
+
+    }
 
     public void getHistoryTextField() {
         if (!historyTextField.getText().isEmpty()){
@@ -146,7 +152,7 @@ public class Controller {
         }
     }//ATTEMPT AT FIX FOR HISTORY TEXT FIELD
 
-    private void  printToScreen(float number){
+    private void printToScreen(float number){
 
         Display.appendText(Float.toString(number));
 
@@ -182,30 +188,61 @@ public class Controller {
     private void appendFinalCalculation(){
         historyTextField.appendText(" " + returnNumberAsString());
         clearDisplay();
-        numberValidation();
+
         printToScreen(result);
         CALC_MEMORY.push(result);
         System.out.println("In stack : " + CALC_MEMORY.peek());
     }// APPENDS THE RESULT OF THE FINAL CALCULATION TO THE DISPLAY
-    private void numberValidation(){
+    private boolean numberValidation(float num){
 
-        if (result % 10 == 0) {
-            int new_Value  = (int) result;
+        if (num % 1 == 0) {
+             return true;
         }
+        return  false;
 
     }//CHECKS IF THE NUMBER HAS AN DECIMAL POINTS IF NOT IT TRUNCATES THE NUMBER
+    private boolean numberValidation(double num){
+        if (num % 1 == 0) {
+            return true;
+        }
+        return  false;
+    }
+    private void historyCheck(){
+
+        if (historyTextField.getText().contains(calculation)){
+
+            historyTextField.clear();
+
+
+
+
+        }
+
+    }
 
 
     //HANDLES THE OPERATIONS OF THE CALCULATOR
     public void addition(){
 
         calc_setup("+");
-        getHistoryTextField();
-        historyTextField.appendText(returnNumberAsString() + " + ");
-        CALC_MEMORY.push(getNumberDisplayedAsFloat());
-        System.out.println("In stack : " + CALC_MEMORY.peek());
-        clearDisplay();
+        if(!historyTextField.getText().isEmpty()){
 
+            TOP_OF_STACK = CALC_MEMORY.peek() + getNumberDisplayedAsFloat();
+            CALC_MEMORY.push(TOP_OF_STACK);
+            clearDisplay();
+            historyTextField.clear();
+            printToScreen(TOP_OF_STACK);
+            historyTextField.appendText(returnNumberAsString());
+            clearDisplay();
+            System.out.println(TOP_OF_STACK);
+
+        }
+        else {
+            historyTextField.appendText(returnNumberAsString() + " + ");
+            CALC_MEMORY.push(getNumberDisplayedAsFloat());
+            System.out.println("In stack : " + CALC_MEMORY.peek());
+            clearDisplay();
+        }
     }
     public void subtraction(){
         calc_setup("-");
@@ -240,21 +277,66 @@ public class Controller {
 
         int i  = -1;
         float k = getNumberDisplayedAsFloat();
-        float k_inverse = k * i;
+        float result = k * i;
         clearDisplay();
-        printToScreen(k_inverse);
+        if(numberValidation(result)){
+            int j = (int) result;
+            printToScreen(j);
+        }
+        else{
+            printToScreen(result);
+        }
+
+
+
 
     }
     public void powerOf(){
+
         float i = getNumberDisplayedAsFloat();
         clearDisplay();
-        float k = i*i;
-        printToScreen(k);
+        float result = i*i;
+        System.out.println(result);
+        if(numberValidation(result)){
+            int j = (int) result;
+            printToScreen(j);
+            System.out.println(j);
+
+        }
+        else {
+            printToScreen(result);
+        }
     }
     public void sqrt(){
         double k = Math.sqrt(Double.parseDouble(Display.getText()));
         clearDisplay();
-        Display.appendText(Double.toString(k));
+        if(numberValidation(k)){
+            int j = (int) k;
+            printToScreen(j);
+        }
+        else{
+            Display.appendText(Double.toString(k));
+        }
+
+    }
+    public void percentage(){
+
+        if (historyTextField.getText().isEmpty()){
+            clearDisplay();
+            printToScreen(0);
+        }
+        else{
+            float i = getNumberDisplayedAsFloat();
+            clearDisplay();
+            float conversion = i/100 * CALC_MEMORY.peek();
+            printToScreen(conversion);
+
+
+
+
+        }
+
+
     }
 
 
