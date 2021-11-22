@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
+import java.util.Arrays;
 import java.util.Stack;
 
 public class Controller {
@@ -66,6 +67,8 @@ public class Controller {
     private Button percentageButton;
     @FXML
     private Button backButton;
+    @FXML
+    private Button removeLastDigit;
     @FXML
     private TextField historyTextField;
     //endregion
@@ -143,6 +146,9 @@ public class Controller {
         return String.valueOf(num);
 
     }
+    private void clearHistoryTextField(){
+        historyTextField.clear();
+    }
 
     public void getHistoryTextField() {
         if (!historyTextField.getText().isEmpty()){
@@ -174,7 +180,7 @@ public class Controller {
 
             Display.clear();
             CALC_MEMORY.clear();
-            historyTextField.clear();
+            clearHistoryTextField();
             System.out.println("Stack emptied");
         }
 
@@ -188,8 +194,15 @@ public class Controller {
     private void appendFinalCalculation(){
         historyTextField.appendText(" " + returnNumberAsString());
         clearDisplay();
+        if(numberValidation(result)) {
+            int j = (int) result;
+            printToScreen(j);
 
-        printToScreen(result);
+        }
+        else{
+            printToScreen(result);
+        }
+
         CALC_MEMORY.push(result);
         System.out.println("In stack : " + CALC_MEMORY.peek());
     }// APPENDS THE RESULT OF THE FINAL CALCULATION TO THE DISPLAY
@@ -230,7 +243,7 @@ public class Controller {
             TOP_OF_STACK = CALC_MEMORY.peek() + getNumberDisplayedAsFloat();
             CALC_MEMORY.push(TOP_OF_STACK);
             clearDisplay();
-            historyTextField.clear();
+            clearHistoryTextField();
             printToScreen(TOP_OF_STACK);
             historyTextField.appendText(returnNumberAsString());
             clearDisplay();
@@ -246,10 +259,25 @@ public class Controller {
     }
     public void subtraction(){
         calc_setup("-");
-        historyTextField.appendText(returnNumberAsString() + " - ");
-        CALC_MEMORY.push(getNumberDisplayedAsFloat());
-        System.out.println("In stack : " + CALC_MEMORY.peek());
-        clearDisplay();
+        if(!historyTextField.getText().isEmpty()){
+
+            TOP_OF_STACK = CALC_MEMORY.peek() - getNumberDisplayedAsFloat();
+            CALC_MEMORY.push(TOP_OF_STACK);
+            clearDisplay();
+            clearHistoryTextField();
+            printToScreen(TOP_OF_STACK);
+            historyTextField.appendText(returnNumberAsString());
+            clearDisplay();
+            System.out.println(TOP_OF_STACK);
+
+        }
+        else {
+            clearHistoryTextField();
+            historyTextField.appendText(returnNumberAsString() + " - ");
+            CALC_MEMORY.push(getNumberDisplayedAsFloat());
+            System.out.println("In stack : " + CALC_MEMORY.peek());
+            clearDisplay();
+        }
     }
     public void multiplication(){
         calc_setup("*");
@@ -335,6 +363,30 @@ public class Controller {
 
 
         }
+
+
+    }
+    public void deleteLast(){
+
+        int len = Display.getLength();
+        char[] num = Display.getText().toCharArray();
+        char[] newNumber = new char[len - 1];
+        clearDisplay();
+
+        for (int i = 0; i < newNumber.length; i++) {
+            newNumber[i] = num[i];
+            System.out.println(newNumber[i]);
+
+        }
+
+        String  s= Arrays.toString(newNumber);
+
+        System.out.println(s);
+
+
+
+
+
 
 
     }

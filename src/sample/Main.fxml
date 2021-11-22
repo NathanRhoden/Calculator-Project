@@ -40,7 +40,7 @@
             <Button fx:id="decimal_button" layoutX="152.0" layoutY="296.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="42.0" prefWidth="78.0" text="." />
             <Button fx:id="button0" layoutX="78.0" layoutY="296.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="42.0" prefWidth="78.0" text="0" />
             <Button fx:id="divisionButton" layoutX="230.0" layoutY="128.0" mnemonicParsing="false" onAction="#division" prefHeight="42.0" prefWidth="86.0" text="÷" />
-            <Button fx:id="button_BACK" layoutX="230.0" layoutY="86.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="86.0" text="&lt;" />
+            <Button fx:id="removeLastDigit" layoutX="230.0" layoutY="86.0" mnemonicParsing="false" onMouseClicked="#deleteLast" prefHeight="42.0" prefWidth="86.0" text="&lt;" />
             <Button fx:id="EQUALS_Button" layoutX="230.0" layoutY="296.0" mnemonicParsing="false" onAction="#Equals_calculation" prefHeight="42.0" prefWidth="86.0" text="=" />
             <Button layoutX="152.0" layoutY="86.0" mnemonicParsing="false" onMouseClicked="#clearButton" prefHeight="42.0" prefWidth="78.0" text="C" />
             <Button fx:id="squareRootButton" layoutX="152.0" layoutY="128.0" mnemonicParsing="false" onAction="#sqrt" prefHeight="42.0" prefWidth="78.0" text="√x" />
