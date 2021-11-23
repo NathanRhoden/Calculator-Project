@@ -14,6 +14,8 @@ public class Controller {
 
     float result;
     float TOP_OF_STACK = 0;
+    int stackSize = 0;
+    protected final int MAX_STACK_SIZE = 2;
     String calculation;
 
     //region {BUTTONS}
@@ -73,160 +75,169 @@ public class Controller {
     private TextField historyTextField;
     //endregion
 
+
     private Stack<Float> CALC_MEMORY = new Stack<>();
 
 
-    public void buttonPress(ActionEvent event){
+    public void buttonPress(ActionEvent event) {
 
-        if(event.getSource() == button1 ){
+        if (event.getSource() == button1) {
 
             printToScreen(1);
-        }
-        else if(event.getSource() == button2){
+        } else if (event.getSource() == button2) {
 
             printToScreen(2);
-        }
-        else if(event.getSource() == button3){
+
+        } else if (event.getSource() == button3) {
 
             printToScreen(3);
-        }
-        else if(event.getSource() == button4){
+        } else if (event.getSource() == button4) {
 
             printToScreen(4);
-        }
-        else if(event.getSource() == button5){
+        } else if (event.getSource() == button5) {
 
             printToScreen(5);
-        }
-        else if(event.getSource() == button6){
+        } else if (event.getSource() == button6) {
 
             printToScreen(6);
-        }
-
-        else if(event.getSource() == button7){
+        } else if (event.getSource() == button7) {
 
             printToScreen(7);
-        }
-
-        else if(event.getSource() == button8){
+        } else if (event.getSource() == button8) {
 
             printToScreen(8);
-        }
-
-        else if(event.getSource() == button9){
+        } else if (event.getSource() == button9) {
 
             printToScreen(9);
-        }
-        else if(event.getSource() == button0){
+        } else if (event.getSource() == button0) {
 
             printToScreen(0);
-        }
-        else if(event.getSource() == button_BACK){
+        } else if (event.getSource() == button_BACK) {
 
             Display.deletePreviousChar();
 
-        }
-        else if(event.getSource() == decimal_button){
+        } else if (event.getSource() == decimal_button) {
             printToScreen(".");
         }
 
     }//PRINTS THE VARIOUS BUTTON PRESSES TO SCREEN
-    private void clearDisplay(){ // CLEARS DISPLAY
+
+    private void clearDisplay() { // CLEARS DISPLAY
         Display.clear();
     } //CLEARS THE MAIN DISPLAY
-    public float getNumberDisplayedAsFloat(){
+
+    public float getNumberDisplayedAsFloat() {
 
         return Float.parseFloat(Display.getText());
     } //CHANGES STRING TO INT AFTER READING FROM DISPLAY
-    public String returnNumberAsString(){
+
+    public String returnNumberAsString() {
 
         return Display.getText();
     } //CHANGES INT TO STRING AFTER READING FROM DISPLAY
-    private String returnNumberAsString(int num){
+
+    private void checkStackSize() {
+
+        if (stackSize >= MAX_STACK_SIZE) {
+            System.out.println("Stack is full ...Dumping");
+            CALC_MEMORY.clear();
+            CALC_MEMORY.push(getNumberDisplayedAsFloat());
+            stackSize = 1;
+        } else {
+            stackSize++;
+        }
+
+    }
+
+    private void stateSwitch() {
+        if (Display.getText().isBlank()) {
+
+            calc_setup(calculation);
+
+        }
+
+    }
+
+
+    private String returnNumberAsString(int num) {
         return String.valueOf(num);
 
     }
-    private void clearHistoryTextField(){
+
+    private void clearHistoryTextField() {
         historyTextField.clear();
     }
 
     public void getHistoryTextField() {
-        if (!historyTextField.getText().isEmpty()){
+        if (!historyTextField.getText().isEmpty()) {
 
             historyTextField.appendText(calculation);
 
         }
     }//ATTEMPT AT FIX FOR HISTORY TEXT FIELD
 
-    private void printToScreen(float number){
+
+    private void printToScreen(float number) {
 
         Display.appendText(Float.toString(number));
 
     } // PRINTS FLOAT ONTO DISPLAY
-    private void printToScreen(int result){
+
+    private void printToScreen(int result) {
         Display.appendText(Integer.toString(result));
     }//PRINTS INT TO SCREEN
-    private void printToScreen(String string){Display.appendText(string);}//PRINTS STRING TO SCREEN
+
+    private void printToScreen(String string) {
+        Display.appendText(string);
+    }//PRINTS STRING TO SCREEN
 
 
-    public void clearButton(MouseEvent event){
+    public void clearButton(MouseEvent event) {
 
-        if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
+        if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
 
             Display.clear();
 
-        }
-        else if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2){
+        } else if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
 
             Display.clear();
             CALC_MEMORY.clear();
             clearHistoryTextField();
             System.out.println("Stack emptied");
+            stackSize = 0;
         }
 
     }//1 CLICK CLEARS THE DISPLAY 2 CLICKS CLEARS THE STACK
-    private String INT_TO_STRING(int number){
+
+    private String INT_TO_STRING(int number) {
 
         return Float.toString(number);
 
 
     } // CONVERTS INT TO STRING GIVEN AS ARG
-    private void appendFinalCalculation(){
-        historyTextField.appendText(" " + returnNumberAsString());
-        clearDisplay();
-        if(numberValidation(result)) {
-            int j = (int) result;
-            printToScreen(j);
 
-        }
-        else{
-            printToScreen(result);
-        }
 
-        CALC_MEMORY.push(result);
-        System.out.println("In stack : " + CALC_MEMORY.peek());
-    }// APPENDS THE RESULT OF THE FINAL CALCULATION TO THE DISPLAY
-    private boolean numberValidation(float num){
+    private boolean numberValidation(float num) {
 
         if (num % 1 == 0) {
             return true;
         }
-        return  false;
+        return false;
 
     }//CHECKS IF THE NUMBER HAS AN DECIMAL POINTS IF NOT IT TRUNCATES THE NUMBER
-    private boolean numberValidation(double num){
+
+    private boolean numberValidation(double num) {
         if (num % 1 == 0) {
             return true;
         }
-        return  false;
+        return false;
     }
-    private void historyCheck(){
 
-        if (historyTextField.getText().contains(calculation)){
+    private void historyCheck() {
+
+        if (historyTextField.getText().contains(calculation)) {
 
             historyTextField.clear();
-
-
 
 
         }
@@ -235,51 +246,67 @@ public class Controller {
 
 
     //HANDLES THE OPERATIONS OF THE CALCULATOR
-    public void addition(){
+    public void addition() {
 
         calc_setup("+");
-        if(!historyTextField.getText().isEmpty()){
-
-            TOP_OF_STACK = CALC_MEMORY.peek() + getNumberDisplayedAsFloat();
-            CALC_MEMORY.push(TOP_OF_STACK);
-            clearDisplay();
+        if (stackSize == 2) {
+            checkStackSize();
             clearHistoryTextField();
-            printToScreen(TOP_OF_STACK);
-            historyTextField.appendText(returnNumberAsString());
-            clearDisplay();
-            System.out.println(TOP_OF_STACK);
-
-        }
-        else {
             historyTextField.appendText(returnNumberAsString() + " + ");
             CALC_MEMORY.push(getNumberDisplayedAsFloat());
-            System.out.println("In stack : " + CALC_MEMORY.peek());
             clearDisplay();
-        }
-    }
-    public void subtraction(){
-        calc_setup("-");
-        if(!historyTextField.getText().isEmpty()){
+            System.out.println("Top of stack : " + CALC_MEMORY.peek());
 
-            TOP_OF_STACK = CALC_MEMORY.peek() - getNumberDisplayedAsFloat();
-            CALC_MEMORY.push(TOP_OF_STACK);
-            clearDisplay();
+        } else if (!historyTextField.getText().isEmpty() && historyTextField.getText().contains("+") && stackSize < 2) {
+            checkStackSize();
+            Equals_calculation();
             clearHistoryTextField();
-            printToScreen(TOP_OF_STACK);
-            historyTextField.appendText(returnNumberAsString());
+            historyTextField.appendText(returnNumberAsString() + " + ");
             clearDisplay();
-            System.out.println(TOP_OF_STACK);
 
+        } else {
+            checkStackSize();
+            historyTextField.appendText(returnNumberAsString() + " + ");
+            CALC_MEMORY.push(getNumberDisplayedAsFloat());
+            System.out.println("Top of stack : " + CALC_MEMORY.peek());
+            clearDisplay();
         }
-        else {
+
+        System.out.println("Stack size " + stackSize);
+
+    }
+
+    public void subtraction() {
+
+        calc_setup("-");
+
+        if (stackSize == 2) {
+            checkStackSize();
             clearHistoryTextField();
             historyTextField.appendText(returnNumberAsString() + " - ");
             CALC_MEMORY.push(getNumberDisplayedAsFloat());
-            System.out.println("In stack : " + CALC_MEMORY.peek());
+            clearDisplay();
+            System.out.println("Top of stack : " + CALC_MEMORY.peek());
+
+        } else if (!historyTextField.getText().isEmpty() && historyTextField.getText().contains("-") && stackSize < 2) {
+            checkStackSize();
+            Equals_calculation();
+            clearHistoryTextField();
+            historyTextField.appendText(returnNumberAsString() + " - ");
+            clearDisplay();
+
+        } else {
+            checkStackSize();
+            historyTextField.appendText(returnNumberAsString() + " - ");
+            CALC_MEMORY.push(getNumberDisplayedAsFloat());
+            System.out.println("Top of stack : " + CALC_MEMORY.peek());
             clearDisplay();
         }
+
+        System.out.println("Stack size " + stackSize);
     }
-    public void multiplication(){
+
+    public void multiplication() {
         calc_setup("*");
         historyTextField.appendText(returnNumberAsString() + " x ");
         CALC_MEMORY.push(getNumberDisplayedAsFloat());
@@ -287,86 +314,85 @@ public class Controller {
         clearDisplay();
 
     }
-    public void one_over_X(){
+
+    public void one_over_X() {
         float i = getNumberDisplayedAsFloat();
         clearDisplay();
-        float result = 1/i;
+        float result = 1 / i;
         printToScreen(result);
 
     }
-    public void division(){
+
+    public void division() {
         calc_setup("/");
         historyTextField.appendText(returnNumberAsString() + " ÷ ");
         CALC_MEMORY.push(getNumberDisplayedAsFloat());
         System.out.println("In stack : " + CALC_MEMORY.peek());
         clearDisplay();
     }
-    public void invert(){
 
-        int i  = -1;
+    public void invert() {
+
+        int i = -1;
         float k = getNumberDisplayedAsFloat();
         float result = k * i;
         clearDisplay();
-        if(numberValidation(result)){
+        if (numberValidation(result)) {
             int j = (int) result;
             printToScreen(j);
-        }
-        else{
+        } else {
             printToScreen(result);
         }
 
 
-
-
     }
-    public void powerOf(){
+
+    public void powerOf() {
 
         float i = getNumberDisplayedAsFloat();
         clearDisplay();
-        float result = i*i;
+        float result = i * i;
         System.out.println(result);
-        if(numberValidation(result)){
+        if (numberValidation(result)) {
             int j = (int) result;
             printToScreen(j);
             System.out.println(j);
 
-        }
-        else {
+        } else {
             printToScreen(result);
         }
     }
-    public void sqrt(){
+
+    public void sqrt() {
         double k = Math.sqrt(Double.parseDouble(Display.getText()));
         clearDisplay();
-        if(numberValidation(k)){
+        if (numberValidation(k)) {
             int j = (int) k;
             printToScreen(j);
-        }
-        else{
+        } else {
             Display.appendText(Double.toString(k));
         }
 
     }
-    public void percentage(){
 
-        if (historyTextField.getText().isEmpty()){
+    public void percentage() {
+
+        if (historyTextField.getText().isEmpty()) {
             clearDisplay();
             printToScreen(0);
-        }
-        else{
+        } else {
             float i = getNumberDisplayedAsFloat();
             clearDisplay();
-            float conversion = i/100 * CALC_MEMORY.peek();
+            float conversion = i / 100 * CALC_MEMORY.peek();
             printToScreen(conversion);
-
-
 
 
         }
 
 
     }
-    public void deleteLast(){
+
+    public void deleteLast() {
 
         int len = Display.getLength();
         char[] num = Display.getText().toCharArray();
@@ -379,44 +405,57 @@ public class Controller {
 
         }
 
-        String  s= Arrays.toString(newNumber);
+        String s = Arrays.toString(newNumber);
 
         System.out.println(s);
-
-
-
-
-
 
 
     }
 
 
-    public void calc_setup(String calculation){
+    public void calc_setup(String calculation) {
 
-        this.calculation  = calculation;
+        this.calculation = calculation;
     } //SETS THE STRING FOR SWITCH CASE
 
-    public void Equals_calculation(){
+    private void appendFinalCalculation() {
+        checkStackSize();
+        System.out.println("Stack size " + stackSize);
+        historyTextField.appendText(" " + returnNumberAsString());
+        clearDisplay();
+        if (numberValidation(TOP_OF_STACK)) {
+            int j = (int) TOP_OF_STACK;
+            printToScreen(j);
+
+        } else {
+            printToScreen(TOP_OF_STACK);
+        }
+
+        CALC_MEMORY.push(TOP_OF_STACK);
+        System.out.println("Top of Stack : " + TOP_OF_STACK);
+
+    }// APPENDS THE RESULT OF THE FINAL CALCULATION TO THE DISPLAY
+
+    public void Equals_calculation() {
 
         TOP_OF_STACK = CALC_MEMORY.peek();
 
-        switch (calculation){
-            case "+" ->{
-                result = TOP_OF_STACK + getNumberDisplayedAsFloat();
+        switch (calculation) {
+            case "+" -> {
+                TOP_OF_STACK = TOP_OF_STACK + getNumberDisplayedAsFloat();
                 appendFinalCalculation();
 
             }
             case "-" -> {
-                result = TOP_OF_STACK - getNumberDisplayedAsFloat();
+                TOP_OF_STACK = TOP_OF_STACK - getNumberDisplayedAsFloat();
                 appendFinalCalculation();
             }
-            case "*" ->{
+            case "*" -> {
                 result = TOP_OF_STACK * getNumberDisplayedAsFloat();
                 appendFinalCalculation();
 
             }
-            case "/" ->{
+            case "/" -> {
                 result = TOP_OF_STACK / getNumberDisplayedAsFloat();
                 appendFinalCalculation();
             }
@@ -424,14 +463,5 @@ public class Controller {
         }
 
 
-
     }
-
-
-
-
-
-
-
-
 }

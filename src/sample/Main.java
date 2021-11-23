@@ -25,9 +25,9 @@ public class Main extends Application {
         try {
             root = FXMLLoader.load(getClass().getResource("Main.fxml"));
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.setTitle("Calculator");
             primaryStage.setScene(scene);
+            primaryStage.setResizable(false);
             primaryStage.show();
 
 
