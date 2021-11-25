@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="317.0" minHeight="449.0" minWidth="-Infinity" prefHeight="449.0" prefWidth="317.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <TextField fx:id="Display" layoutY="-20.0" prefHeight="218.0" prefWidth="317.0">
+      <TextField fx:id="Display" layoutY="-20.0" prefHeight="219.0" prefWidth="317.0">
          <font>
             <Font size="21.0" />
          </font>
@@ -50,7 +50,7 @@
             <Button fx:id="percentageButton" layoutY="86.0" mnemonicParsing="false" onMouseClicked="#percentage" prefHeight="42.0" prefWidth="78.0" text="\%" />
          </children>
       </Pane>
-      <TextField fx:id="historyTextField" layoutX="87.0" layoutY="-1.0" prefHeight="30.0" prefWidth="216.0" style="-fx-background-color: -fx-control-inner-background;">
+      <TextField fx:id="historyTextField" layoutX="73.0" layoutY="26.0" prefHeight="30.0" prefWidth="237.0" style="-fx-background-color: -fx-control-inner-background;">
          <effect>
             <Blend />
          </effect>
