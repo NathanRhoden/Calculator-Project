@@ -149,16 +149,6 @@ public class Controller {
 
     }
 
-    private void stateSwitch() {
-        if (Display.getText().isBlank()) {
-
-            calc_setup(calculation);
-
-        }
-
-    }
-
-
     private String returnNumberAsString(int num) {
         return String.valueOf(num);
 
@@ -248,6 +238,10 @@ public class Controller {
     //HANDLES THE OPERATIONS OF THE CALCULATOR
     public void addition() {
 
+        if (stackSize == 1 ){
+            Equals_calculation();
+        }
+
         calc_setup("+");
         if (stackSize == 2) {
             checkStackSize();
@@ -276,7 +270,11 @@ public class Controller {
 
     }
 
-    public void subtraction() {
+    public void subtraction()  {
+
+        if (stackSize == 1 ){
+            Equals_calculation();
+        }
 
         calc_setup("-");
 
@@ -295,7 +293,8 @@ public class Controller {
             historyTextField.appendText(returnNumberAsString() + " - ");
             clearDisplay();
 
-        } else {
+        }
+        else {
             checkStackSize();
             historyTextField.appendText(returnNumberAsString() + " - ");
             CALC_MEMORY.push(getNumberDisplayedAsFloat());
@@ -307,12 +306,36 @@ public class Controller {
     }
 
     public void multiplication() {
-        calc_setup("*");
-        historyTextField.appendText(returnNumberAsString() + " x ");
-        CALC_MEMORY.push(getNumberDisplayedAsFloat());
-        System.out.println("In stack : " + CALC_MEMORY.peek());
-        clearDisplay();
 
+        if (stackSize == 1 ){
+            Equals_calculation();
+        }
+
+        calc_setup("*");
+
+        if (stackSize == 2) {
+            checkStackSize();
+            clearHistoryTextField();
+            historyTextField.appendText(returnNumberAsString() + "x");
+            CALC_MEMORY.push(getNumberDisplayedAsFloat());
+            clearDisplay();
+            System.out.println("Top of stack : " + CALC_MEMORY.peek());
+
+        } else if (!historyTextField.getText().isEmpty() && historyTextField.getText().contains(" x ") && stackSize < 2) {
+            checkStackSize();
+            Equals_calculation();
+            clearHistoryTextField();
+            historyTextField.appendText(returnNumberAsString() + " x ");
+            clearDisplay();
+
+        }
+        else {
+            checkStackSize();
+            historyTextField.appendText(returnNumberAsString() + " x ");
+            CALC_MEMORY.push(getNumberDisplayedAsFloat());
+            System.out.println("Top of stack : " + CALC_MEMORY.peek());
+            clearDisplay();
+        }
     }
 
     public void one_over_X() {
@@ -451,12 +474,12 @@ public class Controller {
                 appendFinalCalculation();
             }
             case "*" -> {
-                result = TOP_OF_STACK * getNumberDisplayedAsFloat();
+                TOP_OF_STACK = TOP_OF_STACK * getNumberDisplayedAsFloat();
                 appendFinalCalculation();
 
             }
             case "/" -> {
-                result = TOP_OF_STACK / getNumberDisplayedAsFloat();
+                TOP_OF_STACK= TOP_OF_STACK / getNumberDisplayedAsFloat();
                 appendFinalCalculation();
             }
 
